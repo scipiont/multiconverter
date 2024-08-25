@@ -318,7 +318,7 @@ def doc_to_pdf():
             print(f"Error: {e}")
             abort(500)
     return render_template('upload.html', convert='doc_to_pdf')
-
+# Для pythonanywhere.com
 # @application.route('/pdftodocx', methods=['GET', 'POST'])
 # def pdf_to_docx():
 #     if request.method == 'POST':
@@ -441,7 +441,7 @@ def mp4_to_avi():
 #             output_path = '/tmp/output.avi'
 #             video_file.save(input_path)
 
-#             # Используйте ffmpeg для конвертации
+#             
 #             ffmpeg.input(input_path).output(output_path).run()
 
 #             # Отправка файла пользователю
