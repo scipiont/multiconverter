@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .drop-zone {
+            width: 100%;
+            max-width: 500px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .drop-zone.dragover {
+            border-color: dodgerblue;
+            color: dodgerblue;
+        }
+
+        .btn-convert {
+            margin-top: 10px;
+        }
+    </style>
+    <title>Upload File</title>
+</head>
+<body>
+    <form id="upload-form" action="" method="post" enctype="multipart/form-data">
+        <div class="drop-zone" id="drop-zone">
+            Drag a file here to convert or click to select a file
+        </div>
+        <input type="file" name="file" id="file-input" style="display: none;" required>
+        <button type="submit" class="btn btn-primary btn-convert">Convert</button>
+    </form>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const uploadForm = document.getElementById('upload-form');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                updateDropZoneText(files[0].name);
+            }
+        });
+
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            if (files.length > 0) {
+                updateDropZoneText(files[0].name);
+            }
+        });
+
+        uploadForm.addEventListener('submit', (e) => {
+            if (!fileInput.files.length) {
+                e.preventDefault();
+                alert('Пожалуйста, выберите файл для конвертации.');
+            }
+        });
+
+        function updateDropZoneText(fileName) {
+            dropZone.textContent = `Файл "${fileName}" готов к конвертации`;
+            dropZone.style.color = 'green';
+            dropZone.style.borderColor = 'green';
+        }
+    </script>
+</body>
+</html>

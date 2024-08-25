@@ -1,0 +1,192 @@
+<!-- <html>
+    
+<head>
+   
+    
+    <script>
+        function submitForm() {
+            var inputImage = document.getElementById("inputImage");
+            var errorDiv = document.getElementById("error");
+    
+            if (!inputImage.files[0]) {
+                errorDiv.innerHTML = "Please select an image.";
+                errorDiv.style.display = "block";
+                return;
+            }
+    
+            if (!inputImage.files[0].type.startsWith("image/png")) {
+                errorDiv.innerHTML = "The selected file is not a PNG image.";
+                errorDiv.style.display = "block";
+                return;
+            }
+    
+            if (inputImage.files[0].size > 5 * 1024 * 1024) {
+                errorDiv.innerHTML = "The selected image is larger than 5 MB.";
+                errorDiv.style.display = "block";
+                return;
+            }
+    
+            errorDiv.style.display = "none";
+    
+            var formData = new FormData();
+            formData.append("image", inputImage.files[0]);
+    
+            fetch("/api/pngtojpg", {
+                method: "POST",
+                body: formData
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+        }
+    </script>
+    
+</head>
+
+
+<body>
+    <form>
+        <input type="file" id="inputImage">
+        <br>
+        <button onclick="submitForm()">Convert to JPG</button>
+    </form>
+    
+    <div id="error" style="display: none;"></div>
+</body>
+
+</html> -->
+<html>
+  <head>
+    <title>PNG в JPG</title>
+    <style>
+
+/* * {
+  padding: 0;
+  margin: 0;
+} */
+
+body {
+  background: linear-gradient(rgba(232, 217, 217, 0.8), rgba(0, 0, 0, 0.8)),
+    url(static/bg.jpg)
+      no-repeat center center/cover;
+      /* background: url(bg.jpg) no-repeat 50% 50%; */
+      /* background: linear-gradient(rgba(232, 217, 217, 0.8), rgba(0, 0, 0, 0.8)),
+    url(bg.jpg);     */
+  font-family: Arial, Helvetica, sans-serif;
+} 
+      .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* a {
+  font-size: 1.5rem;
+  padding: 1rem 3rem;
+  color: #f4f4f4;
+  text-transform: uppercase;
+} */
+
+.btn {
+  text-decoration: none;
+  border: 1px solid rgb(146, 148, 248);
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  font-size: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
+}
+
+.btn:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(146, 148, 248, 0.4),
+    transparent
+  );
+  transition: all 650ms;
+}
+
+.btn:hover:before {
+  left: 100%;
+}
+/* #error-message {
+        color: red;
+        margin-left: 20px;
+      } */
+    </style>
+    <script>
+      function convertToJPG() {
+        let fileInput = document.getElementById("fileInput");
+        let file = fileInput.files[0];
+
+        if (!file) {
+         // alert("Please select an image");
+          alert("Выберите изображение");
+          return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+          //alert("File size must be less than 5 MB");
+          alert("Файл не должен быть более 5 MB");
+          return;
+        }
+
+        if (file.type !== "image/png") {
+          //alert("File must be in PNG format");
+          alert("Файл должен иметь PNG формат");
+          return;
+        }
+
+        let formData = new FormData();
+        formData.append("image", file);
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/pngtojpg", true);
+        xhr.responseType = "blob";
+        xhr.onload = function(event) {
+          if (this.status === 200) {
+            let blob = new Blob([this.response], {
+              type: "image/jpeg"
+            });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "converted.jpeg";
+            link.click();
+          }
+        };
+        xhr.send(formData);
+      }
+    </script>
+  </head>
+  <body>
+    <!-- <input type="file" id="fileInput" accept="image/png" /> -->
+    <!-- <button onclick="convertToJPG()">Convert to JPG</button> -->
+    <!-- <button onclick="convertToJPG()">PNG в JPG</button> -->
+    
+    <div class="container">
+      <input type="file" id="fileInput" accept="image/png" />
+      <button class = "btn" onclick="convertToJPG()">PNG в JPG</button>
+      <!-- <a href="#" class="btn">Hover to Shine</a> -->
+      <!-- <div id="error-message" style="display: none;"></div> -->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- <title>WEBP to PNG Converter</title> -->
+    <title>WEBP в PNG Конвертер</title>
+    <style>
+* {
+  padding: 0;
+  margin: 0;
+} 
+
+body {
+  background: linear-gradient(rgba(232, 217, 217, 0.8), rgba(0, 0, 0, 0.8)),
+    url(static/bg1.webp)
+      no-repeat center center/cover;
+      /* background: url(bg.jpg) no-repeat 50% 50%; */
+      /* background: linear-gradient(rgba(232, 217, 217, 0.8), rgba(0, 0, 0, 0.8)),
+    url(bg.jpg);     */
+  font-family: Arial, Helvetica, sans-serif;
+} 
+      .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* a {
+  font-size: 1.5rem;
+  padding: 1rem 3rem;
+  color: #f4f4f4;
+  text-transform: uppercase;
+} */
+
+.btn {
+  text-decoration: none;
+  border: 1px solid rgb(146, 148, 248);
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  font-size: 20px;
+  padding: 10px 20px;
+  color: rgb(5, 49, 138);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
+}
+
+.btn:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(146, 148, 248, 0.4),
+    transparent
+  );
+  transition: all 650ms;
+}
+
+.btn:hover:before {
+  left: 100%;
+}
+
+
+#error-message {
+        color: red;
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <form>
+        <div class="container">
+          <div>
+            <!-- <label for="file">Select WEBP image:</label> -->
+
+            <!-- <label for="file">Выберите WEBP изображение:</label> -->
+            <input type="file" id="file" accept=".webp">
+          </div>
+          <div>
+            <!-- <button type="button" onclick="convertToPNG()">Convert to PNG</button> -->
+            <button class = "btn" type="button" onclick="convertToPNG()">WEBP в PNG</button>
+          </div>
+          <div id="error-message" style="display: none;"></div>
+       </div>
+
+      </form>
+    </div>
+    
+  </body>
+  <script>
+    function convertToPNG() {
+      const input = document.getElementById("file");
+      if (!input.value) {
+       // showErrorMessage("Please select an image");
+        showErrorMessage("Выберите изображение");
+        return;
+      }
+
+  const file = input.files[0];
+  if (!file.type.endsWith("webp")) {
+    //showErrorMessage("Selected file is not a WEBP image");
+    showErrorMessage("Выбранное изображение не WEBP");
+    return;
+  }
+
+  if (file.size > 5000000) {
+    //showErrorMessage("Image size should be less than 5 MB");
+    showErrorMessage("Изображение должно быть не больше 5 MB");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  fetch("/api/webptopng", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        //throw new Error("Conversion failed");
+        throw new Error("Ошибка конвертирования");
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "converted.png";
+      a.click();
+    })
+    .catch((error) => {
+      showErrorMessage(error.message);
+    });
+}
+
+function showErrorMessage(message) {
+  const errorMessage = document.getElementById("error-message");
+  errorMessage.innerHTML = message;
+  errorMessage.style.display = "block";
+}
+  </script>
+</html>
+
+
+

@@ -1,0 +1,579 @@
+
+
+ <!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>JPG to PNG Conversion</title>
+    <style>
+      body {
+  background: #c0a8c5;
+  color: #d1b7d7;
+  font-family: Arial, sans-serif;
+}
+
+@keyframes burn {
+  0%, 100% { border-radius: 5% 87% 45% 85%; width: 30vmin; }
+  10% { border-radius: 5% 85% 49% 82%; }
+  20% { border-radius: 0% 85% 45% 87%; width: 31vmin; }
+  30%, 90% { border-radius: 5% 85% 49% 82%; }
+  40% { border-radius: 0% 85% 45% 87%; width: 32vmin; }
+  50% { border-radius: 2% 87% 42% 90%; }
+  60% { border-radius: 5% 97% 45% 88%; }
+  70% { border-radius: 2% 87% 42% 90%; width: 31vmin}
+  80% { border-radius: 5% 97% 45% 88%; }
+}
+
+/* see comment below */
+#animation:checked ~ .match {
+  animation: burn 4s infinite;
+  width: 50vmin;
+}
+
+.match {
+  /* 
+  The animation is disabled because it can be CPU-consuming.
+  Uncomment the next CSS line to re-enable it. 
+  */
+   animation: burn 4s infinite; 
+  width: 30vmin;
+  aspect-ratio: 1;
+  background:
+    radial-gradient(100% 100% at 90% 90%, #251c27, #251c2733 20%, #251c2700 50%),
+    radial-gradient(farthest-side at 110% 120%, #251c27, #631, #cb6c3b88, #0000),
+    radial-gradient(at 100% 100%, #fc08, #cb6c3b, #eebd7600 60%),
+    linear-gradient(135deg, #fff0 20%, #ff0)
+    ;
+  background-color: #ffe;
+  border-radius: 2% 87% 45% 85%;
+  box-shadow:
+    inset 2vmin 2vmin 2vmin -1.5vmin #f808,
+    inset  -1vmin -1vmin 5vmin -3vmin #00f7,
+    inset  0vmin  -1vmin 5vmin -3vmin #00f8,
+    inset  -1vmin -1vmin 2vmin -2vmin #251c27,
+    inset  -1vmin -1vmin 3vmin -1vmin #251c27,
+    inset  -1vmin -1vmin 2vmin #fc08,
+    -0.5vmin -0.5vmin 1vmin #ff08,
+    -1vmin -1vmin 2vmin #ce8c47,
+    -2vmin -2vmin 10vmin 1vmin #251c27,
+    -6vmin -6vmin 35vmin 3vmin #fa06;
+  filter: blur(0.1vmin);
+  transform: rotate(45deg);
+  /* demo */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -15vmin) rotate(45deg);
+}
+
+.match::after {
+  content: "";
+  display: block;
+  width: 6vmin;
+  height: 5vmin;
+  background: 
+    linear-gradient(45deg, #f002, #fff0),
+    linear-gradient(to right, #d68356, #e5653e 3%, #d0363b 20%, #251c27);
+  top: 24vmin;
+  left: 24vmin;
+  border-radius: 100% / 120% 80% 80% 120%;
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 5vmin 3vmin #251c27aa, inset -1vmin 0 1.5vmin #251c27;
+}
+
+.match::before {
+  content: "";
+  display: block;
+  width: 20vmin;
+  height: 3vmin;
+  background: linear-gradient(to right, #d605, #321, #251c27);
+  top: 32vmin;
+  left: 32vmin;
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 5vmin 3vmin #251c27aa, inset -1vmin 0 1.5vmin #251c27aa
+}
+.frm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+label {
+  color: black;
+
+}
+.btnCh {
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+/*------------------------------------------*/
+.buttons {
+  display: flex;
+  flex-direction: row;
+      flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+/*   padding: 2em 0em; */
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  /* background-color: #FFF; */
+  padding:  40px 0px;
+  width: 240px;
+}
+
+
+.btn {
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 45px;
+  max-width: 160px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+}
+.btn:hover {
+  text-decoration: none;
+}
+
+/*btn_background*/
+.effect01 {
+  color: #FFF;
+  border: 4px solid #000;
+  box-shadow:0px 0px 0px 1px #000 inset;
+  background-color: #000;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+.effect01:hover {
+  border: 4px solid #666;
+  background-color: #FFF;
+  box-shadow:0px 0px 0px 4px #EEE inset;
+}
+
+/*btn_text*/
+.effect01 span {
+  transition: all 0.2s ease-out;
+  z-index: 2;
+}
+.effect01:hover span{
+  letter-spacing: 0.13em;
+  color: #333;
+}
+
+/*highlight*/
+.effect01:after {
+  background: #FFF;
+  border: 0px solid #000;
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: .8;
+  position: absolute;
+  top: -50px;
+  -webkit-transform: rotate(35deg);
+          transform: rotate(35deg);
+  width: 50px;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);/*easeOutCirc*/
+  z-index: 1;
+}
+.effect01:hover:after {
+  background: #FFF;
+  border: 20px solid #000;
+  opacity: 0;
+  left: 120%;
+  -webkit-transform: rotate(40deg);
+          transform: rotate(40deg);
+}
+
+    </style>
+  </head>
+  <body>
+   
+    <label style="color:#fff" for="animation"></label>
+    <div class="match" role="img" aria-label="A drawing of a match burning"></div>
+
+    <form class="frm">
+      <label for="img">Select JPG Image:</label>
+      <input class="btnCh" type="file" id="img" name="img" accept=".jpg">
+      <br><br>
+
+       <div class="buttons">
+        <div class="container">
+            <a href="" class="btn effect01" id="convertBtn" ><span>Convert to PNG</span></a>
+        </div>
+      </div> 
+
+
+
+    </form>
+    <br>
+    <div id="error" style="color:red; font-weight:bold;"></div>
+  </body>
+  <script>
+    const convertBtn = document.querySelector("#convertBtn");
+    convertBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const img = document.querySelector("#img").files[0];
+      const error = document.querySelector("#error");
+      if (!img) {
+        error.innerHTML = "Please select an image";
+        return;
+      }
+      if (img.size > 5000000) {
+        error.innerHTML = "Image size should be less than 5 MB";
+        return;
+      }
+      if (!img.name.endsWith(".jpg")) {
+        error.innerHTML = "Image should be in JPG format";
+        return;
+      }
+      const formData = new FormData();
+      formData.append("img", img);
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/api/jpgtopng", true);
+      xhr.responseType = "blob";
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const blob = xhr.response;
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "converted.png";
+          link.click();
+        }
+      };
+      xhr.send(formData);
+    });
+  </script>
+</html>   -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JPG в PNG</title>
+    <style>
+      body {
+        background-color: lightgray;
+      }
+@keyframes burn {
+  0%, 100% { border-radius: 5% 87% 45% 85%; width: 30vmin; }
+  10% { border-radius: 5% 85% 49% 82%; }
+  20% { border-radius: 0% 85% 45% 87%; width: 31vmin; }
+  30%, 90% { border-radius: 5% 85% 49% 82%; }
+  40% { border-radius: 0% 85% 45% 87%; width: 32vmin; }
+  50% { border-radius: 2% 87% 42% 90%; }
+  60% { border-radius: 5% 97% 45% 88%; }
+  70% { border-radius: 2% 87% 42% 90%; width: 31vmin}
+  80% { border-radius: 5% 97% 45% 88%; }
+}
+
+/* see comment below */
+#animation:checked ~ .match {
+  animation: burn 4s infinite;
+  width: 50vmin;
+}
+
+.match {
+  /* 
+  The animation is disabled because it can be CPU-consuming.
+  Uncomment the next CSS line to re-enable it. 
+  */
+  
+   /* animation: burn 4s infinite;  */
+   margin-top: 150px;
+  width: 30vmin;
+  aspect-ratio: 1;
+  background:
+    radial-gradient(100% 100% at 90% 90%, #251c27, #251c2733 20%, #251c2700 50%),
+    radial-gradient(farthest-side at 110% 120%, #251c27, #631, #cb6c3b88, #0000),
+    radial-gradient(at 100% 100%, #fc08, #cb6c3b, #eebd7600 60%),
+    linear-gradient(135deg, #fff0 20%, #ff0)
+    ;
+  /* background-color: #ffe; */
+  background-color: rgb(255, 203, 17);
+  border-radius: 2% 87% 45% 85%;
+  box-shadow:
+    inset 2vmin 2vmin 2vmin -1.5vmin #f808,
+    inset  -1vmin -1vmin 5vmin -3vmin #00f7,
+    inset  0vmin  -1vmin 5vmin -3vmin #00f8,
+    inset  -1vmin -1vmin 2vmin -2vmin #251c27,
+    inset  -1vmin -1vmin 3vmin -1vmin #251c27,
+    inset  -1vmin -1vmin 2vmin #fc08,
+    -0.5vmin -0.5vmin 1vmin #ff08,
+    -1vmin -1vmin 2vmin #ce8c47,
+    -2vmin -2vmin 10vmin 1vmin #251c27,
+    -6vmin -6vmin 35vmin 3vmin #fa06;
+  filter: blur(0.1vmin);
+  transform: rotate(45deg);
+  /* demo */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -15vmin) rotate(45deg);
+  /* z-index: 1; */
+}
+.match:hover {
+  animation: burn 4s infinite;
+}
+
+.match::after {
+  content: "";
+  display: block;
+  width: 6vmin;
+  height: 5vmin;
+  background: 
+    linear-gradient(45deg, #f002, #fff0),
+    linear-gradient(to right, #d68356, #e5653e 3%, #d0363b 20%, #251c27);
+  top: 24vmin;
+  left: 24vmin;
+  border-radius: 100% / 120% 80% 80% 120%;
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 5vmin 3vmin #251c27aa, inset -1vmin 0 1.5vmin #251c27;
+}
+
+.match::before {
+  content: "";
+  display: block;
+  width: 20vmin;
+  height: 3vmin;
+  background: linear-gradient(to right, #d605, #321, #251c27);
+  top: 32vmin;
+  left: 32vmin;
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 5vmin 3vmin #251c27aa, inset -1vmin 0 1.5vmin #251c27aa
+}
+.frm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+label {
+  color: black;
+
+}
+
+
+
+      .form-container {
+        top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+         height: 50vh; 
+        background-color: lightgray;
+        /* align-items: center; */
+        /* z-index: 1000; */
+      }
+      .form-element {
+        padding: 10px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px #ccc;
+        background-color: lightgray;
+       
+      }
+      input[type="file"] {
+        /* padding: 10px; */
+        margin-bottom: -20px;
+        border: none;
+        border-radius: 5px;
+        background-color: lightgray;
+      }
+      /* button[type="submit"] {
+        padding: 10px 20px;
+        background-color: blue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        
+      } */
+
+      button[type="submit"] {
+        padding: 10px 20px;
+        background-color: rgb(37, 182, 205);
+        color: rgb(0, 0, 0);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        
+        
+      }
+
+
+      .error {
+        color: red;
+        margin-top: 10px;
+      }
+
+/*Фон кнопки*/
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+      flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+/*   padding: 2em 0em; */
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  /* background-color: #FFF; */
+  padding:  40px 0px;
+  width: 240px;
+  background-color: inherit;
+}
+
+
+.btn {
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 45px;
+  max-width: 160px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+  color: black;
+  background-color: grey;
+}
+.btn:hover {
+  text-decoration: none;
+}
+
+/*btn_background*/
+.effect01 {
+  color: #FFF;
+  border: 4px solid #000;
+  box-shadow:0px 0px 0px 1px #000 inset;
+  background-color: #000;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+.effect01:hover {
+  border: 4px solid #666;
+  background-color: #FFF;
+  box-shadow:0px 0px 0px 4px #EEE inset;
+}
+
+/*btn_text*/
+.effect01 span {
+  transition: all 0.2s ease-out;
+  z-index: 2;
+}
+.effect01:hover span{
+  letter-spacing: 0.13em;
+  color: #333;
+}
+
+/*highlight*/
+.effect01:after {
+  background: #FFF;
+  border: 0px solid #000;
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: .8;
+  position: absolute;
+  top: -50px;
+  -webkit-transform: rotate(35deg);
+          transform: rotate(35deg);
+  width: 50px;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);/*easeOutCirc*/
+  z-index: 1;
+}
+.effect01:hover:after {
+  background: #FFF;
+  border: 20px solid #000;
+  opacity: 0;
+  left: 120%;
+  -webkit-transform: rotate(40deg);
+          transform: rotate(40deg);
+}
+
+
+
+    </style>
+  </head>
+  <body>
+    <label style="color:#fff" for="animation"></label>
+    <div class="match" role="img" aria-label="A drawing of a match burning"></div>
+    <div class="form-container">
+      <form class="form-element" action="/api/jpgtopng" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept=".jpg">
+        <!-- <button type="submit">Convert to PNG</button> -->
+        <!-- <button type="submit">JPG в PNG</button> -->
+
+        <div class="buttons">
+          <div class="container">
+              <!-- <a href="" class="btn effect01" id="convertBtn" ><span>Convert to PNG</span></a> -->
+              <button class="btn effect01" id="convertBtn" type="submit">JPG в PNG</button>
+              <div class="error" id="error-message"></div>
+          </div>
+        </div> 
+
+        
+      </form>
+    </div>
+
+    <script>
+      const form = document.querySelector("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const image = form.querySelector('input[type="file"]').files[0];
+        const errorMessage = document.querySelector("#error-message");
+
+        if (!image) {
+          //errorMessage.innerHTML = "Please select a JPG image";
+          errorMessage.innerHTML = "Пожалуйста выберите файл JPG";
+          return;
+        }
+
+        if (image.size > 10 * 1024 * 1024) {
+         // errorMessage.innerHTML = "Image size should be less than 10 MB";
+          errorMessage.innerHTML = "Картинка может быть не больше 10 MB";
+          return;
+        }
+
+        if (!image.name.endsWith(".jpg")) {
+          //errorMessage.innerHTML = "Selected file is not a JPG image";
+           errorMessage.innerHTML = "Выбранный файл не JPG";
+          return;
+        }
+
+        errorMessage.innerHTML = "";
+        form.submit();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,185 @@
+<!-- <html>
+  <head>
+    <title>BMP to PNG Converter</title>
+  </head>
+  <body>
+    <h1>BMP to PNG Converter</h1>
+    <form>
+      <input type="file" id="input-image"/>
+      <br><br>
+      <button type="button" id="convert-button">Convert to PNG</button>
+    </form>
+    <br><br>
+    <div id="error-message" style="display:none; color:red"></div>
+  </body>
+  <script>
+    const convertButton = document.getElementById("convert-button");
+    convertButton.addEventListener("click", function() {
+      const inputImage = document.getElementById("input-image").files[0];
+      const errorMessage = document.getElementById("error-message");
+      if (!inputImage) {
+        errorMessage.innerHTML = "Please select an image";
+        errorMessage.style.display = "block";
+        return;
+      }
+      if (inputImage.size > 5000000) {
+        errorMessage.innerHTML = "Image size should be less than 5 MB";
+        errorMessage.style.display = "block";
+        return;
+      }
+      if (!inputImage.type.includes("bmp")) {
+        errorMessage.innerHTML = "Selected file is not a BMP image";
+        errorMessage.style.display = "block";
+        return;
+      }
+      errorMessage.style.display = "none";
+      const formData = new FormData();
+      formData.append("image", inputImage);
+      fetch("/api/bmptopng", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle response data
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    });
+  </script>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <title>Convert BMP to PNG</title> -->
+    <title>BMP в PNG</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      } 
+      /* html {
+  background-image: url(static/bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+} */
+       body {
+        background: linear-gradient(rgba(232, 217, 217, 0.8), rgba(0, 0, 0, 0.8)),
+          url(static/bg.jpg)
+             no-repeat center center/cover;
+ 
+        font-family: Arial, Helvetica, sans-serif;
+      }  
+            .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      /* a {
+        font-size: 1.5rem;
+        padding: 1rem 3rem;
+        color: #f4f4f4;
+        text-transform: uppercase;
+      } */
+      h1 {
+        color: rgb(5, 49, 138);
+      }
+      .btn {
+        text-decoration: none;
+        border: 1px solid rgb(146, 148, 248);
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        font-size: 20px;
+        padding: 10px 20px;
+        color: rgb(5, 49, 138);
+        font-weight: bold;
+        cursor: pointer;
+      }
+      
+      .btn:hover {
+        box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
+      }
+      
+      .btn:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(146, 148, 248, 0.4),
+          transparent
+        );
+        transition: all 650ms;
+      }
+      
+      .btn:hover:before {
+        left: 100%;
+      }
+          </style>
+
+    <script>
+      function convertBMPToPNG() {
+        var image = document.getElementById("image").files[0];
+        if (!image) {
+          // alert("Please select an image");
+          alert("Пожалуйста выберите изображение");
+          return;
+        }
+        var imageSize = image.size / 1024 / 1024;
+        if (imageSize > 5) {
+          //alert("Image size must be less than 5 MB");
+          alert("Изображение должно быть не больше 5 MB");
+          return;
+        }
+        if (!image.type.match("image/bmp")) {
+         // alert("Selected file is not a BMP image");
+          alert("Выбранный файл не BMP изображение");
+          return;
+        }
+        var formData = new FormData();
+        formData.append("image", image);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/bmptopng", true);
+        xhr.responseType = "blob";
+        xhr.onload = function() {
+          if (this.status === 200) {
+            var blob = new Blob([this.response], { type: "image/png" });
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "converted.png";
+            link.style.display = "none";
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+          }
+        };
+        xhr.send(formData);
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- <h1>Convert BMP to PNG</h1> -->
+      <!-- <h1>BMP в PNG</h1> -->
+      <input type="file" id="image" accept="image/bmp">
+      <br><br>
+      <!-- <button class = "btn" onclick="convertBMPToPNG()">Convert to PNG</button> -->
+      <button class = "btn" onclick="convertBMPToPNG()">BMP в PNG</button>
+    </div>
+  </body>
+</html>
+

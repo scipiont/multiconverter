@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        .multiconverter {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background-color: dodgerblue;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .panel {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
+            z-index: 1;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .panel a {
+            display: block;
+            padding: 5px;
+            color: black;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .panel a:hover {
+            background-color: dodgerblue;
+            opacity: 0.5;
+            transition: opacity 1s ease, visibility 2s ease;
+            border-radius: 50%;
+        }
+
+        .panel.left { left: 50%; top: 50%; transform: translate(-150%, -50%); }
+        .panel.right { left: 50%; top: 50%; transform: translate(50%, -50%); }
+        .panel.top { left: 50%; top: 50%; transform: translate(-50%, -150%); }
+        .panel.bottom { left: 50%; top: 50%; transform: translate(-50%, 50%); }
+
+        .panel.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 768px) {
+            .panel {
+                width: 250px;
+                height: 250px;
+            }
+        }
+    </style>
+    <title>Multiconverter</title>
+</head>
+<body>
+    <div class="multiconverter" id="multiconverter">
+        Multiconverter
+        <div class="panel left">
+            <a href="/mp4toavi">MP4 в AVI</a>
+            <a href="/avitomp4">AVI в MP4</a>
+            <a href="/movtomp4">MOV в MP4</a>
+            <a href="/mkvtomp4">MKV в MP4</a>
+        </div>
+        <div class="panel right">
+            <a href="/mp4tomp3">MP4 в MP3</a>
+            <a href="/mp3toflac">MP3 в FLAC</a>
+            <a href="/flactomp3">FLAC в MP3</a>
+            <a href="/mp3toogg">MP3 в OGG</a>
+            <a href="/mp3towav">MP3 в WAV</a>
+        </div>
+        <div class="panel top">
+            <a href="/doctopdf">DOC в PDF</a>
+            <a href="/pdftodocx">PDF в DOCX</a>
+            <a href="/xlsxtopdf">XLSX в PDF</a>
+            <a href="/ppttopdf">PPT в PDF</a>
+        </div>
+        <div class="panel bottom">
+            <a href="/jpgtopng">JPG в PNG</a>
+            <a href="/pngtojpg">PNG в JPG</a>
+            <a href="/webptopng">WEBP в PNG</a>
+            <a href="/bmptopng">BMP в PNG</a>
+            <a href="/pngtopdf">PNG в PDF</a>
+            <a href="/jpgtopdf">JPG в PDF</a>
+        </div>
+    </div>
+
+    <script>
+        const multiconverter = document.getElementById('multiconverter');
+        const panels = document.querySelectorAll('.panel');
+        let panelsVisible = false;
+
+        multiconverter.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                // Mobile-specific logic
+                const rect = multiconverter.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                panels.forEach(panel => panel.classList.remove('show'));
+
+                if (x < rect.width / 2 && y < rect.height / 2) {
+                    document.querySelector('.panel.top').classList.add('show');
+                } else if (x < rect.width / 2 && y >= rect.height / 2) {
+                    document.querySelector('.panel.bottom').classList.add('show');
+                } else if (x >= rect.width / 2 && y < rect.height / 2) {
+                    document.querySelector('.panel.right').classList.add('show');
+                } else if (x >= rect.width / 2 && y >= rect.height / 2) {
+                    document.querySelector('.panel.left').classList.add('show');
+                }
+            } else {
+                // Desktop logic: toggle all panels
+                panelsVisible = !panelsVisible;
+                panels.forEach(panel => {
+                    if (panelsVisible) {
+                        panel.classList.add('show');
+                    } else {
+                        panel.classList.remove('show');
+                    }
+                });
+            }
+        });
+
+        multiconverter.addEventListener('mousemove', (e) => {
+            if (!panelsVisible && window.innerWidth > 768) {
+                const rect = multiconverter.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                panels.forEach(panel => panel.classList.remove('show'));
+
+                if (x < rect.width / 4) {
+                    document.querySelector('.panel.left').classList.add('show');
+                } else if (x > rect.width * 3 / 4) {
+                    document.querySelector('.panel.right').classList.add('show');
+                } else if (y < rect.height / 4) {
+                    document.querySelector('.panel.top').classList.add('show');
+                } else if (y > rect.height * 3 / 4) {
+                    document.querySelector('.panel.bottom').classList.add('show');
+                }
+            }
+        });
+
+        multiconverter.addEventListener('mouseleave', () => {
+            if (!panelsVisible && window.innerWidth > 768) {
+                panels.forEach(panel => panel.classList.remove('show'));
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!multiconverter.contains(e.target)) {
+                panels.forEach(panel => panel.classList.remove('show'));
+                panelsVisible = false;
+            }
+        });
+    </script>
+</body>
+</html>
